@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-!6g%oe(_*vss&5$588s9gbip+@4j#a=57n7qkh*j&%0li=lu)n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -147,3 +147,4 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # อนุญาตให้ Frontend ที่รันบน localhost:3000 เข้าถึงได้
 ]
+CORS_ALLOW_CREDENTIALS = True

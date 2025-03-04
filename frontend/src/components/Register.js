@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';  // นำเข้า useNavigate
+import { useNavigate } from 'react-router-dom';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../styles/Register.css";  
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -9,18 +11,21 @@ const Register = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
-    const [errorMessage, setErrorMessage] = useState('');  // เพิ่ม state สำหรับเก็บข้อความผิดพลาด
-    const [successMessage, setSuccessMessage] = useState('');  // เพิ่ม state สำหรับเก็บข้อความสำเร็จ
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrorMessage('');
+        setSuccessMessage('');
+
         if (!username || !password || !password2 || !firstName || !lastName) {
-            setErrorMessage('Please fill in all fields');  // แจ้งเตือนเมื่อข้อมูลไม่ครบ
+            setErrorMessage('Please fill in all fields');
             return;
         }
         if (password !== password2) {
-            setErrorMessage('Passwords do not match');  // แจ้งเตือนเมื่อรหัสผ่านไม่ตรงกัน
+            setErrorMessage('Passwords do not match');
             return;
         }
 
@@ -30,7 +35,7 @@ const Register = () => {
         formData.append('password2', password2);
         formData.append('first_name', firstName);
         formData.append('last_name', lastName);
-        if (profilePicture) {
+        if (profilePicture && profilePicture.size > 0) {  
             formData.append('profile_picture', profilePicture);
         }
 
@@ -40,11 +45,16 @@ const Register = () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+
             console.log('Registration successful', response.data);
-            setSuccessMessage('Registration successful! Redirecting to login...');  // แสดงข้อความสำเร็จ
+            setSuccessMessage('Registration successful! Redirecting to login...');
+
+            const user_id = response.data.id;
+            localStorage.setItem('user_id', user_id);
+
             setTimeout(() => {
-                navigate('/login');  // เปลี่ยนเส้นทางไปที่หน้า Login หลังจากแสดงข้อความสำเร็จ
-            }, 2000);  // หน่วงเวลา 2 วินาที
+                navigate('/login');
+            }, 2000);
         } catch (error) {
             if (error.response) {
                 setErrorMessage('Registration failed: ' + JSON.stringify(error.response.data));
@@ -57,59 +67,76 @@ const Register = () => {
     };
 
     return (
-        <div>
+        <div className="register-container">
             <h2>Register</h2>
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}  {/* แสดงข้อความผิดพลาด */}
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}  {/* แสดงข้อความสำเร็จ */}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {successMessage && <p className="success-message">{successMessage}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Username:</label>
+                    <label className="form-label">Username:</label>
                     <input
                         type="text"
+                        className="form-control"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
+                        required
                     />
                 </div>
                 <div>
-                    <label>Password:</label>
+                    <label className="form-label">Password:</label>
                     <input
                         type="password"
+                        className="form-control"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
                 </div>
                 <div>
-                    <label>Confirm Password:</label>
+                    <label className="form-label">Confirm Password:</label>
                     <input
                         type="password"
+                        className="form-control"
                         value={password2}
                         onChange={(e) => setPassword2(e.target.value)}
+                        required
                     />
                 </div>
                 <div>
-                    <label>First Name:</label>
+                    <label className="form-label">First Name:</label>
                     <input
                         type="text"
+                        className="form-control"
                         value={firstName}
                         onChange={(e) => setFirstName(e.target.value)}
+                        required
                     />
                 </div>
                 <div>
-                    <label>Last Name:</label>
+                    <label className="form-label">Last Name:</label>
                     <input
                         type="text"
+                        className="form-control"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
+                        required
                     />
                 </div>
                 <div>
-                    <label>Profile Picture:</label>
+                    <label className="form-label">Profile Picture:</label>
                     <input
                         type="file"
+                        className="form-control"
                         onChange={(e) => setProfilePicture(e.target.files[0])}
                     />
                 </div>
-                <button type="submit">Register</button>
+                <button 
+                    type="submit" 
+                    className="btn-primary"
+                    disabled={!username || !password || !password2 || !firstName || !lastName}
+                >
+                    Register
+                </button>
             </form>
         </div>
     );

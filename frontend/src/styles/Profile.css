@@ -1,0 +1,283 @@
+:root {
+    --primary-color: #4A90E2;
+    --secondary-color: #E0E0E0;
+    --background-color: #FFFFFF;
+    --text-color: #333;
+    --danger-color: #FF4D4D;
+    --border-radius: 8px;
+}
+
+body, html {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: auto;
+    overflow-y: auto;
+}
+
+/* ✅ Header (แถบเมนูด้านบน) */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    height: 60px;
+}
+
+/* ✅ กลุ่มเมนูด้านซ้าย */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ✅ รูปโปรไฟล์ในเมนู */
+.profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* ✅ ชื่อผู้ใช้ */
+.user-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #FFFFFF !important; 
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);  
+}
+
+/* ✅ ปุ่มเมนู */
+.nav-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 8px 12px;
+    text-decoration: none;
+    transition: background 0.3s;
+    border-radius: var(--border-radius);
+}
+
+.nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ✅ ปุ่ม Logout */
+.logout-button {
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.logout-button:hover {
+    background-color: darkred;
+}
+
+/* ✅ คอนเทนต์หลักของโปรไฟล์ */
+.profile-container {
+    padding-top: 80px; /* ✅ ให้เนื้อหาไม่ทับ Header */
+    padding-bottom: 50px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+/* ✅ ส่วนแสดงข้อมูลโปรไฟล์ */
+.profile-header {
+    background-color: var(--secondary-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* ✅ รูปโปรไฟล์ */
+.profile-picture-large {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid var(--primary-color);
+}
+
+/* ✅ ชื่อและข้อมูล */
+.profile-header h2 {
+    margin: 10px 0 5px;
+    font-size: 22px;
+    color: var(--text-color);
+}
+
+.profile-header p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* ✅ ข้อมูลติดตาม */
+.profile-follow-info {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.follow-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.follow-link:hover {
+    text-decoration: underline;
+}
+
+/* ✅ ปุ่มแก้ไข/ติดตาม */
+.profile-action {
+    margin-top: 10px;
+}
+
+.edit-button, .follow-button {
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+}
+
+.edit-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.edit-button:hover {
+    background-color: #218838;
+}
+
+.follow-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.follow-button:hover {
+    background-color: #0056b3;
+}
+
+/* ✅ กล่องโพสต์ */
+.profile-posts {
+    margin-top: 20px;
+}
+
+/* ✅ ป้องกันโพสต์ถูกบีบ */
+.post {
+    background-color: var(--secondary-color);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+/* ✅ โพสต์เฮดเดอร์ */
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* ✅ รูปโปรไฟล์ผู้โพสต์ */
+.post-author-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+}
+
+/* ✅ ชื่อคนโพสต์ */
+.post-author-name {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* ✅ เนื้อหาโพสต์ (ให้ชิดซ้าย) */
+.post-content {
+    font-size: 14px;
+    line-height: 1.6;
+    word-wrap: break-word;
+    text-align: left;
+}
+
+/* ✅ วันเวลาของโพสต์ */
+.post-date {
+    font-size: 12px;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* ✅ รูปในโพสต์ */
+.post-image {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    margin-top: 10px;
+}
+
+/* ✅ ปุ่มในโพสต์ */
+.post-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* ✅ ปุ่ม Action */
+.action-button {
+    padding: 6px 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.action-button:hover {
+    background-color: #357ABD;
+}
+
+/* ✅ ปุ่มลบโพสต์ */
+.delete-button {
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.delete-button:hover {
+    background-color: darkred;
+}

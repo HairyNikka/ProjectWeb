@@ -1,0 +1,140 @@
+/* ✅ ตั้งค่าพื้นฐาน */
+.followlist-container {
+    max-width: 800px;
+    margin: auto;
+    padding-top: 80px; /* ✅ ป้องกันเนื้อหาจมใต้ header */
+}
+
+/* ✅ Header ที่แสดงข้อมูลผู้ที่ล็อกอิน */
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #4A90E2; /* ✅ สีหลักของเว็บ */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+.user-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #FFFFFF !important; 
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
+}
+.user-name:hover {
+    text-decoration: underline;
+}
+
+.nav-button {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+.logout-button {
+    background-color: #E74C3C;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.logout-button:hover {
+    background-color: #C0392B;
+}
+
+/* ✅ รายชื่อ Followers และ Following */
+h2 {
+    text-align: center;
+    color: #4A90E2;
+    margin-top: 20px;
+}
+
+/* ✅ กรอบลิสต์ของ Followers และ Following */
+.follow-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* ✅ การ์ดแต่ละคน */
+.user-card {
+    display: flex;
+    align-items: center;
+    background-color: #E0E0E0; /* ✅ สีรอง */
+    padding: 15px;
+    border-radius: 10px;
+    transition: transform 0.2s;
+    gap: 10px; /* ✅ เพิ่มช่องว่างระหว่าง elements */
+}
+
+.user-card:hover {
+    transform: scale(1.02);
+}
+.user-name-card{
+    color: #4A90E2;
+    text-decoration: none;
+    font-weight: bold;
+}
+.user-name-card:hover{
+    text-decoration: underline;
+}
+
+/* ✅ รูปโปรไฟล์ของแต่ละคน */
+.profile-picture-small {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #4A90E2;
+    margin-right: 10px;
+}
+
+/* ✅ ลิงก์ไปยังโปรไฟล์ของแต่ละคน */
+
+
+/* ✅ ปุ่ม Follow และ Unfollow */
+.follow-button {
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 30px; /* ✅ ดันปุ่มไปทางขวาสุด */
+}
+
+.follow-button:hover {
+    background-color: #357ABD;
+}
+
+/* ✅ ข้อความสำหรับตัวเอง */
+.self-text {
+    color: gray;
+    font-style: italic;
+}

@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
+from .models import Post, Follow
 
 User = get_user_model()
 
@@ -37,3 +37,57 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         token['username'] = user.username
         return token
+
+class UserSerializer(serializers.ModelSerializer):
+    is_following = serializers.SerializerMethodField()
+    profile_picture = serializers.SerializerMethodField()  
+    is_superuser = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'profile_picture', 'is_following', 'is_superuser']
+        read_only_fields = ['username']
+
+    def get_is_following(self, obj):
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return Follow.objects.filter(follower=request.user, followed=obj).exists()
+        return False
+
+    def get_profile_picture(self, obj):
+        request = self.context.get('request')
+        if obj.profile_picture:
+            return request.build_absolute_uri(obj.profile_picture.url)  # ✅ เปลี่ยนให้ส่ง URL เต็ม
+        return None
+
+class PostSerializer(serializers.ModelSerializer):
+    author = UserSerializer(read_only=True)
+    shared_from = serializers.SerializerMethodField()  # ✅ เปลี่ยนจาก PrimaryKeyRelatedField เป็น SerializerMethodField
+    likes_count = serializers.SerializerMethodField()
+    shares_count = serializers.SerializerMethodField()
+    image = serializers.ImageField(required=False)
+
+    class Meta:
+        model = Post
+        fields = ['id', 'author', 'content', 'image', 'created_at', 'likes', 'shares', 'likes_count', 'shares_count', 'shared_from']
+
+    def get_likes_count(self, obj):
+        return obj.likes.count()
+
+    def get_shares_count(self, obj):
+        return obj.shares.count()
+    
+    def get_shared_from(self, obj):
+        if obj.shared_from:
+            shared_post = PostSerializer(obj.shared_from, context=self.context).data
+            shared_post['author'] = UserSerializer(obj.shared_from.author, context=self.context).data  # ✅ ใช้ author ของต้นฉบับ
+            return shared_post
+        return None
+
+
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Follow
+        fields = ['id', 'follower', 'followed', 'created_at']
