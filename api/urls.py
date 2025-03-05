@@ -13,8 +13,6 @@ urlpatterns = [
     path('admin/posts/<int:id>/delete/', AdminDeletePostView.as_view(), name='admin-delete-post'),  
     path('admin/users/<int:id>/delete/', AdminDeleteUserView.as_view(), name='admin-delete-user'), 
 
-
-
     # User Management
     path('user/', UserDetailView.as_view(), name='user-detail'),
     path('users/<int:user_id>/', UserProfileView.as_view(), name='user-profile'), 
@@ -32,7 +30,7 @@ urlpatterns = [
     path('posts/<int:post_id>/share/', PostShareView.as_view(), name='post-share'),
     path('posts/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
 
-    # ✅ Comments
+    #Comments
     path('posts/<int:post_id>/comments/', CommentViewSet.as_view({'get': 'list', 'post': 'create'}), name='post-comments'),
     path('comments/<int:pk>/', CommentViewSet.as_view({'delete': 'destroy'}), name='comment-delete'),
 

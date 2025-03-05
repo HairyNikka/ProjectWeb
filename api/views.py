@@ -34,23 +34,18 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
     def update(self, request, *args, **kwargs):
         user = self.get_object()
         data = request.data.copy()
-
-        # ✅ Debug เช็คค่าที่ส่งมา
         print("Request Data:", data)
 
-        # ✅ อัปเดต `description`
         if "description" in data:
             description = data.get("description", "").strip()
             if len(description) > 150:
                 return Response({"error": "Description must be 150 characters or less."}, status=status.HTTP_400_BAD_REQUEST)
             user.description = description
 
-        # ✅ อัปเดต `profile_picture`
         profile_picture = request.FILES.get("profile_picture")
         if profile_picture:
-            user.profile_picture = profile_picture  # ✅ บันทึกไฟล์รูปภาพใหม่
+            user.profile_picture = profile_picture  
 
-        # ✅ ใช้ Serializer เพื่ออัปเดตข้อมูล
         serializer = self.get_serializer(user, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -65,7 +60,7 @@ class PostListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)  # บันทึกผู้เขียนโพสต์
+        serializer.save(author=self.request.user) 
 
 class PostDeleteView(generics.DestroyAPIView):
     queryset = Post.objects.all()
@@ -76,13 +71,11 @@ class PostDeleteView(generics.DestroyAPIView):
         return Post.objects.filter(Q(author=self.request.user) | Q(shared_from__author=self.request.user))
 
     def perform_destroy(self, instance):
-        # ✅ ถ้าเป็นโพสต์ที่แชร์ → ลดจำนวน `shares_count` ของโพสต์ต้นฉบับ
         if instance.shared_from:
             original_post = instance.shared_from
-            original_post.shares.remove(instance.author)  # ✅ ลบคนแชร์ออกจาก shares
+            original_post.shares.remove(instance.author)  
             original_post.save()
 
-        # ✅ ลบโพสต์
         instance.delete()
 
 
@@ -93,9 +86,9 @@ class PostLikeView(APIView):
         try:
             post = Post.objects.get(id=post_id)
             if request.user in post.likes.all():
-                post.likes.remove(request.user)  # ยกเลิก Like
+                post.likes.remove(request.user)  
             else:
-                post.likes.add(request.user)  # กด Like
+                post.likes.add(request.user) 
             return Response({'status': 'success'}, status=status.HTTP_200_OK)
         except Post.DoesNotExist:
             return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -108,27 +101,22 @@ class PostShareView(APIView):
         try:
             post = get_object_or_404(Post, id=post_id)
 
-            # ✅ ตรวจสอบว่าโพสต์ต้นฉบับยังคงอยู่
             if post.shared_from:
                 shared_from = post.shared_from
             else:
                 shared_from = post
 
-            # ✅ สร้างโพสต์ใหม่ที่แชร์ โดยไม่คัดลอกคอมเมนต์
             shared_post = Post.objects.create(
                 author=request.user,
                 content=shared_from.content,
                 image=shared_from.image,
                 shared_from=shared_from
             )
-
-            # ✅ อัปเดตจำนวนครั้งที่แชร์
             shared_from.shares.add(request.user)
 
-            # ✅ ส่งข้อมูลโพสต์ที่แชร์กลับไป
             serializer = PostSerializer(shared_post, context={"request": request})
             response_data = serializer.data
-            response_data["comments"] = []  # ✅ ตั้งค่าให้ comments เป็นอาร์เรย์ว่าง
+            response_data["comments"] = []  
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         except Exception as e:
@@ -139,7 +127,7 @@ class PostShareView(APIView):
 class FollowUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, user_id):  # เปลี่ยนจาก userId เป็น user_id
+    def post(self, request, user_id): 
         try:
             followed_user = User.objects.get(id=user_id)
             if request.user == followed_user:
@@ -160,7 +148,7 @@ class FollowUserView(APIView):
 class UnfollowUserView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
-    def post(self, request, user_id):  # เปลี่ยนจาก userId เป็น user_id
+    def post(self, request, user_id):  
         try:
             followed_user = User.objects.get(id=user_id)
         except User.DoesNotExist:
@@ -180,11 +168,9 @@ class UserListView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        # ดึงข้อมูลผู้ใช้ทั้งหมด ยกเว้นผู้ใช้ที่ล็อกอินอยู่
         return User.objects.exclude(id=self.request.user.id)
 
     def get_serializer_context(self):
-        # ส่ง request ไปยัง Serializer
         return {'request': self.request}
 
 class FollowingPostsView(generics.ListAPIView):
@@ -192,9 +178,9 @@ class FollowingPostsView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        # ดึงโพสต์จากผู้ใช้ที่ติดตามและผู้ใช้เอง
+
         following_users = Follow.objects.filter(follower=self.request.user).values_list('followed', flat=True)
-        following_users = list(following_users) + [self.request.user.id]  # เพิ่มผู้ใช้เอง
+        following_users = list(following_users) + [self.request.user.id]  
         return Post.objects.filter(author__in=following_users).order_by('-created_at')  
 
 class UserPostsView(generics.ListAPIView):
@@ -204,24 +190,22 @@ class UserPostsView(generics.ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs['user_id']
         return Post.objects.filter(
-            Q(author_id=user_id) |  # ✅ โพสต์ที่ user สร้างเอง
-            Q(shared_from__isnull=False, author_id=user_id)  # ✅ โพสต์ที่ user แชร์เอง
+            Q(author_id=user_id) | 
+            Q(shared_from__isnull=False, author_id=user_id)  
         ).order_by('-created_at')
 
 class UserProfileView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, user_id):  
-        print("Requested user_id:", user_id)  # ✅ Debug ว่า user_id ถูกส่งมาถูกต้องหรือไม่
-        user = get_object_or_404(User, id=user_id)  # ✅ ใช้ get_object_or_404 ป้องกัน DoesNotExist
+        print("Requested user_id:", user_id)  
+        user = get_object_or_404(User, id=user_id)  
         serializer = UserSerializer(user, context={'request': request})
 
-        # ✅ ดึงข้อมูลผู้ติดตาม, ผู้ที่กำลังติดตาม, และจำนวนโพสต์
         followers_count = Follow.objects.filter(followed=user).count()
         following_count = Follow.objects.filter(follower=user).count()
         posts_count = Post.objects.filter(author=user).count()
 
-        # ✅ เช็คว่าผู้ใช้ที่ล็อกอินอยู่กำลังติดตาม user_id นี้หรือไม่
         is_following = Follow.objects.filter(follower=request.user, followed=user).exists()
 
         response_data = serializer.data
@@ -229,7 +213,7 @@ class UserProfileView(APIView):
             'followers_count': followers_count,
             'following_count': following_count,
             'posts_count': posts_count,
-            'is_following': is_following  # ✅ เพิ่ม `is_following`
+            'is_following': is_following 
         })
 
         return Response(response_data, status=status.HTTP_200_OK)
@@ -263,13 +247,13 @@ class UserFollowingView(APIView):
 class AdminDeletePostView(DestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsAdminUser]  # ✅ ให้เฉพาะ Admin ลบโพสต์ได้
+    permission_classes = [IsAdminUser] 
     lookup_field = "id"
 
 class AdminDeleteUserView(DestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAdminUser]  # ✅ ให้เฉพาะ Admin ลบผู้ใช้ได้
+    permission_classes = [IsAdminUser]  
     lookup_field = "id"
 
 class CommentViewSet(viewsets.ViewSet):
@@ -277,7 +261,7 @@ class CommentViewSet(viewsets.ViewSet):
 
     def list(self, request, post_id=None):
         post = get_object_or_404(Post, id=post_id)
-        comments = post.comments.all().order_by("-created_at")  # ✅ เรียงใหม่ล่าสุดอยู่บน
+        comments = post.comments.all().order_by("-created_at")  
         serializer = CommentSerializer(comments, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -295,10 +279,9 @@ class CommentViewSet(viewsets.ViewSet):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    def destroy(self, request, pk=None):  # ✅ เพิ่มฟังก์ชันลบคอมเมนต์
+    def destroy(self, request, pk=None):  
         comment = get_object_or_404(Comment, id=pk)
 
-        # ✅ ตรวจสอบว่าคนที่ลบ เป็นเจ้าของคอมเมนต์หรือเป็นแอดมิน
         if request.user == comment.author or request.user.is_superuser:
             comment.delete()
             return Response({"message": "Comment deleted successfully"}, status=status.HTTP_204_NO_CONTENT)

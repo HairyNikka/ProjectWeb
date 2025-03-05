@@ -29,8 +29,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
-
-# Serializer สำหรับการเข้าสู่ระบบ
+    
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -57,12 +56,12 @@ class UserSerializer(serializers.ModelSerializer):
     def get_profile_picture(self, obj):
         request = self.context.get('request')
         if obj.profile_picture:
-            return request.build_absolute_uri(obj.profile_picture.url)  # ✅ เปลี่ยนให้ส่ง URL เต็ม
+            return request.build_absolute_uri(obj.profile_picture.url)  
         return None
 
 class PostSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
-    shared_from = serializers.SerializerMethodField()  # ✅ เปลี่ยนจาก PrimaryKeyRelatedField เป็น SerializerMethodField
+    shared_from = serializers.SerializerMethodField()  
     likes_count = serializers.SerializerMethodField()
     shares_count = serializers.SerializerMethodField()
     image = serializers.ImageField(required=False)
@@ -80,12 +79,9 @@ class PostSerializer(serializers.ModelSerializer):
     def get_shared_from(self, obj):
         if obj.shared_from:
             shared_post = PostSerializer(obj.shared_from, context=self.context).data
-            shared_post['author'] = UserSerializer(obj.shared_from.author, context=self.context).data  # ✅ ใช้ author ของต้นฉบับ
+            shared_post['author'] = UserSerializer(obj.shared_from.author, context=self.context).data  
             return shared_post
         return None
-
-
-
 
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
