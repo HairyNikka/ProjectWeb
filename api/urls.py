@@ -3,7 +3,7 @@ from .views import (
     RegisterView, CustomTokenObtainPairView, UserDetailView, UserProfileView,
     PostListCreateView, PostLikeView, PostShareView, PostDeleteView,
     FollowUserView, UnfollowUserView, UserListView, FollowingPostsView,
-    UserPostsView, UserFollowersView, UserFollowingView, AdminDeletePostView, AdminDeleteUserView
+    UserPostsView, UserFollowersView, UserFollowingView, AdminDeletePostView, AdminDeleteUserView, CommentViewSet  
 )
 
 urlpatterns = [
@@ -31,4 +31,9 @@ urlpatterns = [
     path('posts/<int:post_id>/like/', PostLikeView.as_view(), name='post-like'),
     path('posts/<int:post_id>/share/', PostShareView.as_view(), name='post-share'),
     path('posts/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
+
+    # ✅ Comments
+    path('posts/<int:post_id>/comments/', CommentViewSet.as_view({'get': 'list', 'post': 'create'}), name='post-comments'),
+    path('comments/<int:pk>/', CommentViewSet.as_view({'delete': 'destroy'}), name='comment-delete'),
+
 ]

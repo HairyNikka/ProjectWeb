@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .models import Post, Follow
+from .models import Post, Follow, Comment
 
 User = get_user_model()
 
@@ -45,7 +45,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'profile_picture', 'is_following', 'is_superuser']
+        fields = ['id', 'username', 'first_name', 'last_name', 'profile_picture', 'is_following', 'is_superuser','description']
         read_only_fields = ['username']
 
     def get_is_following(self, obj):
@@ -91,3 +91,19 @@ class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow
         fields = ['id', 'follower', 'followed', 'created_at']
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    author_name = serializers.CharField(source="author.first_name", read_only=True)
+    author_picture = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'post', 'author', 'author_name', 'author_picture', 'content', 'created_at']
+        read_only_fields = ['id', 'post', 'author', 'author_name', 'author_picture', 'created_at']
+
+    def get_author_picture(self, obj):
+        request = self.context.get("request")
+        if obj.author.profile_picture:
+            return request.build_absolute_uri(obj.author.profile_picture.url)
+        return None

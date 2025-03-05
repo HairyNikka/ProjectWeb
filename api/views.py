@@ -1,6 +1,7 @@
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, viewsets
 from rest_framework.generics import DestroyAPIView
-from .serializers import RegisterSerializer, CustomTokenObtainPairSerializer, PostSerializer, FollowSerializer, UserSerializer
+from .serializers import (RegisterSerializer, CustomTokenObtainPairSerializer, PostSerializer, FollowSerializer
+                          , UserSerializer,CommentSerializer)
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
@@ -8,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
-from .models import Post,Follow,User
+from .models import Post,Follow,User, Comment
 from django.db.models import Q
 
 # View สำหรับการสมัครสมาชิก
@@ -34,12 +35,22 @@ class UserDetailView(generics.RetrieveUpdateAPIView):
         user = self.get_object()
         data = request.data.copy()
 
-        profile_picture = request.FILES.get('profile_picture')
-        print("Uploaded File:", profile_picture)  # ✅ Debug ว่ามีไฟล์ถูกอัปโหลดมาหรือไม่
+        # ✅ Debug เช็คค่าที่ส่งมา
+        print("Request Data:", data)
 
+        # ✅ อัปเดต `description`
+        if "description" in data:
+            description = data.get("description", "").strip()
+            if len(description) > 150:
+                return Response({"error": "Description must be 150 characters or less."}, status=status.HTTP_400_BAD_REQUEST)
+            user.description = description
+
+        # ✅ อัปเดต `profile_picture`
+        profile_picture = request.FILES.get("profile_picture")
         if profile_picture:
             user.profile_picture = profile_picture  # ✅ บันทึกไฟล์รูปภาพใหม่
 
+        # ✅ ใช้ Serializer เพื่ออัปเดตข้อมูล
         serializer = self.get_serializer(user, data=data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -64,6 +75,17 @@ class PostDeleteView(generics.DestroyAPIView):
     def get_queryset(self):
         return Post.objects.filter(Q(author=self.request.user) | Q(shared_from__author=self.request.user))
 
+    def perform_destroy(self, instance):
+        # ✅ ถ้าเป็นโพสต์ที่แชร์ → ลดจำนวน `shares_count` ของโพสต์ต้นฉบับ
+        if instance.shared_from:
+            original_post = instance.shared_from
+            original_post.shares.remove(instance.author)  # ✅ ลบคนแชร์ออกจาก shares
+            original_post.save()
+
+        # ✅ ลบโพสต์
+        instance.delete()
+
+
 class PostLikeView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -80,25 +102,37 @@ class PostLikeView(APIView):
 
 
 class PostShareView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, post_id):
         try:
-            post = Post.objects.get(id=post_id)
-            
-            # ✅ ถ้าโพสต์ต้นฉบับถูกแชร์มาจากโพสต์อื่น ให้ใช้ `shared_from` ต้นฉบับ
-            shared_from = post.shared_from if post.shared_from else post
+            post = get_object_or_404(Post, id=post_id)
 
+            # ✅ ตรวจสอบว่าโพสต์ต้นฉบับยังคงอยู่
+            if post.shared_from:
+                shared_from = post.shared_from
+            else:
+                shared_from = post
+
+            # ✅ สร้างโพสต์ใหม่ที่แชร์ โดยไม่คัดลอกคอมเมนต์
             shared_post = Post.objects.create(
                 author=request.user,
                 content=shared_from.content,
                 image=shared_from.image,
-                shared_from=shared_from  # ✅ เก็บ `shared_from` ที่ถูกต้อง
+                shared_from=shared_from
             )
-            return Response({'status': 'success', 'message': 'Post shared successfully'}, status=status.HTTP_201_CREATED)
-        except Post.DoesNotExist:
-            return Response({'error': 'Post not found'}, status=status.HTTP_404_NOT_FOUND)
 
+            # ✅ อัปเดตจำนวนครั้งที่แชร์
+            shared_from.shares.add(request.user)
+
+            # ✅ ส่งข้อมูลโพสต์ที่แชร์กลับไป
+            serializer = PostSerializer(shared_post, context={"request": request})
+            response_data = serializer.data
+            response_data["comments"] = []  # ✅ ตั้งค่าให้ comments เป็นอาร์เรย์ว่าง
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     
 
@@ -200,9 +234,6 @@ class UserProfileView(APIView):
 
         return Response(response_data, status=status.HTTP_200_OK)
 
-
-
-        
 class UserFollowersView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -240,3 +271,37 @@ class AdminDeleteUserView(DestroyAPIView):
     serializer_class = UserSerializer
     permission_classes = [IsAdminUser]  # ✅ ให้เฉพาะ Admin ลบผู้ใช้ได้
     lookup_field = "id"
+
+class CommentViewSet(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request, post_id=None):
+        post = get_object_or_404(Post, id=post_id)
+        comments = post.comments.all().order_by("-created_at")  # ✅ เรียงใหม่ล่าสุดอยู่บน
+        serializer = CommentSerializer(comments, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request, post_id=None):
+        post = get_object_or_404(Post, id=post_id)
+        content = request.data.get("content", "").strip()
+
+        if not content:
+            return Response({"error": "Comment cannot be empty."}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = CommentSerializer(data=request.data, context={"request": request})
+        if serializer.is_valid():
+            serializer.save(author=request.user, post=post)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def destroy(self, request, pk=None):  # ✅ เพิ่มฟังก์ชันลบคอมเมนต์
+        comment = get_object_or_404(Comment, id=pk)
+
+        # ✅ ตรวจสอบว่าคนที่ลบ เป็นเจ้าของคอมเมนต์หรือเป็นแอดมิน
+        if request.user == comment.author or request.user.is_superuser:
+            comment.delete()
+            return Response({"message": "Comment deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+        return Response({"error": "You don't have permission to delete this comment"}, status=status.HTTP_403_FORBIDDEN)
+

@@ -1,4 +1,4 @@
-:root {
+#Profile-page :root {
     --primary-color: #4A90E2;
     --secondary-color: #E0E0E0;
     --background-color: #FFFFFF;
@@ -7,7 +7,7 @@
     --border-radius: 8px;
 }
 
-body, html {
+#Profile-page body, html {
     background-color: var(--background-color);
     color: var(--text-color);
     margin: 0;
@@ -17,8 +17,79 @@ body, html {
     overflow-y: auto;
 }
 
+
+#Profile-page .profile-header {
+    position: relative; /* ✅ ทำให้สามารถใช้ absolute ภายในได้ */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 65px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    gap: 20px;  /* ✅ ระยะห่างระหว่างรูปกับข้อมูล */
+}
+
+#Profile-page .profile-container {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* ✅ เพิ่มระยะห่าง */
+}
+
+#Profile-page .profile-picture-large {
+    width: 120px; /* ✅ ขยายขนาดรูป */
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+}
+
+#Profile-page .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#Profile-page .username {
+    color: gray;
+    font-size: 14px;
+    margin-top: -5px;
+}
+
+#Profile-page .profile-stats {
+    display: flex;
+    gap: 15px;
+    margin: 10px 0;
+    font-size: 14px;
+}
+#Profile-page .stat-link {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+}
+
+#Profile-page .stat-link:hover {
+    text-decoration: underline;
+    color: #007bff;
+}
+
+#Profile-page .profile-stats span {
+    font-weight: bold;
+}
+
+#Profile-page .profile-description {
+    font-size: 14px;
+    color: #333;
+}
+
+#Profile-page .no-description {
+    color: gray;
+    font-style: italic;
+}
+
 /* ✅ Header (แถบเมนูด้านบน) */
-.header {
+#Profile-page .header {
     position: fixed;
     top: 0;
     left: 0;
@@ -35,14 +106,14 @@ body, html {
 }
 
 /* ✅ กลุ่มเมนูด้านซ้าย */
-.header-left {
+#Profile-page .header-left {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
 }
 
 /* ✅ รูปโปรไฟล์ในเมนู */
-.profile-picture {
+#Profile-page .profile-picture {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -50,32 +121,32 @@ body, html {
 }
 
 /* ✅ ชื่อผู้ใช้ */
-.user-name {
+#Profile-page .user-name {
     font-size: 16px;
     font-weight: bold;
     color: #FFFFFF !important; 
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);  
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
 }
 
 /* ✅ ปุ่มเมนู */
-.nav-button {
+#Profile-page .nav-button {
     background-color: transparent;
     border: none;
     color: white;
     font-size: 16px;
     cursor: pointer;
-    padding: 8px 12px;
+    padding: 4px 12px;
     text-decoration: none;
     transition: background 0.3s;
     border-radius: var(--border-radius);
 }
 
-.nav-button:hover {
+#Profile-page .nav-button:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ ปุ่ม Logout */
-.logout-button {
+/* ✅ ปุ่ม Logout อยู่ด้านขวาสุด */
+#Profile-page .logout-button {
     background-color: var(--danger-color);
     color: white;
     border: none;
@@ -85,129 +156,139 @@ body, html {
     transition: background 0.3s;
 }
 
-.logout-button:hover {
-    background-color: darkred;
+#Profile-page .logout-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ คอนเทนต์หลักของโปรไฟล์ */
-.profile-container {
-    padding-top: 80px; /* ✅ ให้เนื้อหาไม่ทับ Header */
-    padding-bottom: 50px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-    min-height: 100vh;
-    overflow-y: auto;
-}
-
-/* ✅ ส่วนแสดงข้อมูลโปรไฟล์ */
-.profile-header {
-    background-color: var(--secondary-color);
-    padding: 20px;
-    border-radius: var(--border-radius);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* ✅ รูปโปรไฟล์ */
-.profile-picture-large {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 3px solid var(--primary-color);
-}
-
-/* ✅ ชื่อและข้อมูล */
-.profile-header h2 {
-    margin: 10px 0 5px;
-    font-size: 22px;
-    color: var(--text-color);
-}
-
-.profile-header p {
-    font-size: 14px;
+#Profile-page .edit-profile-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
     color: #666;
+    transition: color 0.2s ease-in-out;
 }
 
-/* ✅ ข้อมูลติดตาม */
-.profile-follow-info {
+#Profile-page .edit-profile-button:hover {
+    color: #007bff;
+}
+
+#Profile-page .edit-icon {
+    font-size: 24px;
+}
+
+#Profile-page .profile-name-follow {
     display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
+    align-items: center;
 }
 
-.follow-link {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: bold;
+#Profile-page .profile-name-follow h2 {
+    font-size: 24px;
+    margin: 0;
 }
 
-.follow-link:hover {
+#Profile-page .follow-button {
+    background-color: transparent;
+    color: #4A90E2;
+    border: none;
+    padding: 5px 0px;
+    font-size: 22px;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+#Profile-page .follow-button:hover {
     text-decoration: underline;
 }
 
-/* ✅ ปุ่มแก้ไข/ติดตาม */
-.profile-action {
-    margin-top: 10px;
+#Profile-page .follow-icon {
+    font-size: 28px;
+    color: #28a745; /* ✅ สีเขียวสำหรับคนที่ติดตาม */
 }
 
-.edit-button, .follow-button {
-    padding: 8px 16px;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-weight: bold;
-    border: none;
-}
-
-.edit-button {
-    background-color: #28a745;
-    color: white;
-}
-
-.edit-button:hover {
-    background-color: #218838;
-}
-
-.follow-button {
-    background-color: #007bff;
-    color: white;
-}
-
-.follow-button:hover {
-    background-color: #0056b3;
-}
-
-/* ✅ กล่องโพสต์ */
-.profile-posts {
-    margin-top: 20px;
-}
-
-/* ✅ ป้องกันโพสต์ถูกบีบ */
-.post {
-    background-color: var(--secondary-color);
-    padding: 15px;
-    border-radius: var(--border-radius);
-    margin-bottom: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+/* ✅ เนื้อหาโพสต์ */
+#Profile-page .content {
     width: 100%;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
+    max-width: 900px; 
+    margin: 0 auto;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
 }
 
-/* ✅ โพสต์เฮดเดอร์ */
-.post-header {
+#Profile-page .post {
+    width: 800px; 
+    max-width: 100%; 
+    background-color: #ededed;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px auto; /* ✅ จัดกึ่งกลาง */
+    display: block; /* ✅ ป้องกันโพสต์ถูกบีบ */
+}
+/* ✅ กล่องโพสต์ */
+#Profile-page .post-header {
     display: flex;
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
+    width: 800px;
+    max-width: 100%; 
+}
+#Profile-page .post-content {
+    margin-top: 10px;
+    font-size: 18px;
+    line-height: 1.6;
+    word-wrap: break-word;
 }
 
-/* ✅ รูปโปรไฟล์ผู้โพสต์ */
-.post-author-picture {
+/* ✅ วันเวลาของโพสต์ */
+#Profile-page .post-date {
+    font-size: 12px;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* ✅ รูปในโพสต์ (ป้องกันขยายเต็มจอ) */
+#Profile-page .post-image {
+    width: 100%; /* ✅ ให้รูปขยายเต็มโพสต์ */
+    max-width: 800px; /* ✅ ป้องกันการขยายเกินโพสต์ */
+    height: auto; /* ✅ ปรับอัตราส่วนอัตโนมัติ */
+    max-height: 500px; /* ✅ กำหนดความสูงสูงสุด */
+    display: block;
+    margin: 10px auto;
+    border-radius: 8px;
+    object-fit: contain; /* ✅ ขยายรูปให้พอดี แต่ไม่บิดเบี้ยว */
+}
+
+/* ✅ ปุ่มในโพสต์ */
+#Profile-page .post-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* จัดให้ปุ่มลบไปชิดขวา */
+    gap: 15px;
+    margin-top: 10px;
+    width: 100%;
+}
+#Profile-page .post-actions-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#Profile-page .post-actions-right {
+    margin-left: auto;
+}
+
+#Profile-page .post-author-picture {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -215,69 +296,218 @@ body, html {
     border: 2px solid var(--primary-color);
 }
 
-/* ✅ ชื่อคนโพสต์ */
-.post-author-name {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-/* ✅ เนื้อหาโพสต์ (ให้ชิดซ้าย) */
-.post-content {
+/* ✅ ปุ่ม Action (Like, Share, Delete) */
+#Profile-page .action-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #e0e0e0;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
     font-size: 14px;
-    line-height: 1.6;
-    word-wrap: break-word;
-    text-align: left;
 }
 
-/* ✅ วันเวลาของโพสต์ */
-.post-date {
-    font-size: 12px;
-    color: #777;
+#Profile-page .action-button .icon {
+    font-size: 16px;
+}
+
+#Profile-page .like-button {
+    color: #333;
+}
+
+#Profile-page .like-button.liked {
+    background-color: #1877f2; /* สีฟ้าเมื่อกด Like */
+    color: white;
+}
+
+/* ✅ ปรับปุ่ม Share */
+#Profile-page .share-button {
+    color: #333;
+}
+
+/* ✅ ปรับปุ่ม Delete */
+#Profile-page .delete-button {
+    background-color: #ff4d4d;
+    color: white;
+    
+}
+
+#Profile-page .delete-button:hover {
+    background-color: #d32f2f;
+}
+
+
+/* ✅ กล่องโพสต์ที่แชร์ */
+#Profile-page .shared-from-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #555;
     margin-top: 5px;
 }
 
-/* ✅ รูปในโพสต์ */
-.post-image {
-    width: 100%;
-    max-height: 600px;
-    object-fit: cover;
-    border-radius: var(--border-radius);
-    margin-top: 10px;
+/* ✅ รูปโปรไฟล์ในโพสต์ที่แชร์ */
+#Profile-page .shared-from-profile-picture {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #357ABD;
+}
+#Profile-page .profile-link{
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+}
+#Profile-page .profile-link:hover{
+    text-decoration: underline;
 }
 
-/* ✅ ปุ่มในโพสต์ */
-.post-actions {
+/* ✅ ชื่อคนที่แชร์ */
+#Profile-page .shared-from-name {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#Profile-page .shared-from-name:hover {
+    text-decoration: underline;
+}
+
+/* ✅ ป้าย Shared from */
+#Profile-page .shared-by {
+    font-size: 12px;
+    color: #777;
+}
+
+/* ✅ สไตล์ขีดคั่นหลังชื่อ */
+#Profile-page .divider {
+    margin: 0 1px; 
+    font-size: 18px;
+    color: #ffffff !important; 
+    vertical-align: middle;
+}
+
+#Profile-page .comment-button {
+    background-color: transparent;
+    border: none;
+    color: #555;
+    font-size: 16px;
+    cursor: pointer;
     display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#Profile-page .comment-button .icon {
+    font-size: 18px;
+}
+
+#Profile-page .comment-button:hover {
+    color: #007bff;
+}
+
+#Profile-page .comment-section {
+    margin-top: 10px; 
+    padding: 10px;
+    background-color: #f0f2f5;
+    border-radius: 8px;
+    width: 100%; 
+}
+
+#Profile-page .comment-form {
+    display: flex;
+    align-items: center;
     gap: 10px;
+    padding: 10px;
+}
+
+#Profile-page .comment-profile-picture {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+#Profile-page .comment-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background: white;
+}
+#Profile-page .comment-submit-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #1877f2;
+}
+
+#Profile-page .comment-list {
     margin-top: 10px;
 }
 
-/* ✅ ปุ่ม Action */
-.action-button {
-    padding: 6px 12px;
-    background-color: var(--primary-color);
-    color: white;
+#Profile-page .comment {
+    align-self: flex-start;
+    align-items: center;
+    justify-content: space-between;  /* ✅ ให้ปุ่มลบไปชิดขวา */
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 5px;
+    max-width: 100%;
+}
+
+#Profile-page .comment-delete-button {
+    background: none;
     border: none;
-    border-radius: var(--border-radius);
+    color: red;
     cursor: pointer;
-    transition: background 0.3s;
+    font-size: 16px;
+    margin-left: auto;  /* ✅ บังคับให้ปุ่มไปอยู่ขอบขวา */
+    padding: 5px;
 }
 
-.action-button:hover {
-    background-color: #357ABD;
+#Profile-page .comment-author-picture {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    align-self: flex-start;
+    gap: 10px;
+    margin-top: 5px;
 }
 
-/* ✅ ปุ่มลบโพสต์ */
-.delete-button {
-    background-color: var(--danger-color);
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background 0.3s;
+#Profile-page .comment-content {
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+    white-space: pre-wrap;  
+    max-width: 85%; 
+    margin-left: 10px;
 }
 
-.delete-button:hover {
-    background-color: darkred;
+
+#Profile-page .comment-author {
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+}
+
+#Profile-page .comment-date {
+    font-size: 12px;
+    color: gray;
+    display: block;
+}
+#Profile-page .comment-wrapper {
+    width: 100%;
+    margin-top: 10px;
+    display: block;
+}
+#Profile-page .comment-actions-left {
+    display: flex;
+    align-items: center;
 }

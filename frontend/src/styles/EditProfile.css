@@ -1,101 +1,121 @@
-:root {
-    --primary-color: #4A90E2; /* ✅ สีหลัก (น้ำเงินอ่อน) */
-    --secondary-color: #E0E0E0; /* ✅ สีเทาอ่อน */
-    --background-color: #FFFFFF; /* ✅ พื้นหลังสีขาว */
-    --text-color: #333; /* ✅ ข้อความสีดำ */
+#EditProfile-page :root {
+    --primary-color: #4A90E2;
+    --secondary-color: #E0E0E0;
+    --background-color: #FFFFFF;
+    --text-color: #333;
+    --danger-color: #FF4D4D;
+    --border-radius: 8px;
 }
 
-body {
-    background-color: var(--background-color) !important;
-    color: var(--text-color) !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-    margin: 0;
+#EditProfile-page body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
-/* ✅ กล่อง Edit Profile */
-.edit-profile-container {
-    background-color: var(--secondary-color);
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-    width: 400px;
+#EditProfile-page .edit-profile-container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-/* ✅ หัวข้อ */
-h2 {
+#EditProfile-page h2 {
     color: var(--primary-color);
+    margin-bottom: 20px;
 }
 
-/* ✅ ปรับสี Label */
-.form-label {
-    color: var(--text-color);
-    font-weight: bold;
+#EditProfile-page .form-group {
+    margin-bottom: 15px;
     text-align: left;
+}
+
+#EditProfile-page label {
+    font-weight: bold;
     display: block;
     margin-bottom: 5px;
 }
 
-/* ✅ ปรับสี input */
-.form-control {
-    background-color: var(--background-color);
-    border: 2px solid var(--primary-color);
-    color: var(--text-color);
-    padding: 10px;
-    border-radius: 6px;
+#EditProfile-page input[type="text"],
+textarea {
     width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 10px;
+    padding: 10px;
+    border: 2px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 14px;
+    transition: all 0.3s ease-in-out;
 }
 
-.form-control:focus {
-    background-color: var(--background-color);
+#EditProfile-page textarea {
+    resize: none;
+}
+
+#EditProfile-page input[type="text"]:focus,
+textarea:focus {
     border-color: var(--primary-color);
-    color: var(--text-color);
     outline: none;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
 }
 
-/* ✅ ปุ่ม Save */
-.btn-primary {
-    background-color: var(--primary-color);
-    border: none;
-    padding: 10px;
-    font-weight: bold;
-    width: 100%;
-    border-radius: 6px;
-    transition: background 0.3s;
+#EditProfile-page input[type="file"] {
+    display: none;
+}
+
+#EditProfile-page .file-label {
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
     cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
 }
 
-.btn-primary:hover {
-    background-color: #357ABD; /* ✅ น้ำเงินเข้มขึ้นเมื่อ hover */
-}
 
-/* ✅ รูปโปรไฟล์ */
-.profile-picture-preview {
+#EditProfile-page .profile-picture-preview {
     width: 100px;
     height: 100px;
-    border-radius: 50%;
     object-fit: cover;
+    border-radius: 50%;
     margin-top: 15px;
-    border: 2px solid var(--primary-color);
+    border: 3px solid var(--primary-color);
 }
 
-.back-button {
+#EditProfile-page button {
     width: 100%;
-    background-color: #CCCCCC; /* ✅ สีเทาอ่อน */
-    color: black;
-    border: none;
     padding: 10px;
+    border: none;
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
     margin-top: 10px;
+    transition: all 0.3s;
 }
 
-.back-button:hover {
-    background-color: #BBBBBB;
+#EditProfile-page .save-button {
+    font-size: 18px;
+    background: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+#EditProfile-page .save-button:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+#EditProfile-page .back-button {
+    font-size: 18px;
+    background: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+#EditProfile-page .back-button:hover {
+    background: var(--primary-color);
+    color: white;
 }

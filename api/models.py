@@ -14,22 +14,31 @@ class CustomUser(AbstractUser):
     first_name = models.CharField(_('first name'), max_length=150)
     last_name = models.CharField(_('last name'), max_length=150)
     profile_picture = models.ImageField(upload_to=profile_picture_upload, blank=True, null=True)  # ✅ ใช้ฟังก์ชันเปลี่ยนชื่อไฟล์
+    description = models.TextField(blank=True, null=True)  # ✅ เพิ่มฟิลด์ description
 
     def __str__(self):
         return self.username
 
 User = get_user_model()
 
+
 class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
-    content = models.TextField()
+    content = models.TextField(blank=True, null=True)  # ✅ อนุญาตให้ไม่มีข้อความ
     image = models.ImageField(upload_to='post_images/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    # ✅ ลบโพสต์ต้นฉบับ → ลบโพสต์ที่แชร์ด้วย
+    shared_from = models.ForeignKey(
+        'self', on_delete=models.CASCADE, null=True, blank=True, related_name='shared_posts'
+    )
+
     likes = models.ManyToManyField(User, related_name='liked_posts', blank=True)
     shares = models.ManyToManyField(User, related_name='shared_posts', blank=True)
-    shared_from = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='shared_posts')
 
     def __str__(self):
+        if self.shared_from:
+            return f'Shared Post by {self.author.username} (from {self.shared_from.author.username})'
         return f'Post by {self.author.username}'
 
 class Follow(models.Model):
@@ -42,3 +51,12 @@ class Follow(models.Model):
 
     def __str__(self):
         return f'{self.follower.username} follows {self.followed.username}'
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Comment by {self.author.username} on {self.post.id}'

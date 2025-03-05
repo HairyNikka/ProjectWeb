@@ -1,114 +1,157 @@
-/* ✅ ตั้งค่าพื้นฐาน */
-.contact-container {
+
+#Contact-page .contact-container {
     max-width: 800px;
-    margin: auto;
-    padding-top: 80px; /* ✅ ป้องกันเนื้อหาจมใต้ header */
+    margin: 80px auto 20px auto; /* ให้เว้นระยะจาก header */
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+#Contact-page h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
 }
 
-/* ✅ Header ที่แสดงข้อมูลผู้ที่ล็อกอิน */
-.header {
+#Contact-page :root {
+    --primary-color: #4A90E2;
+    --secondary-color: #E0E0E0;
+    --background-color: #FFFFFF;
+    --text-color: #333;
+    --danger-color: #FF4D4D;
+    --border-radius: 8px;
+}
+#Contact-page body, html {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: auto;
+    overflow-y: auto; 
+}
+
+/* ✅ Header (แถบเมนูด้านบน) */
+#Contact-page .header {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
-    height: 60px;
-    background-color: #4A90E2; /* ✅ สีหลักของเว็บ */
+    background-color: var(--primary-color);
+    color: white;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 12px 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     z-index: 1000;
+    height: 60px;
 }
 
-.header-left {
+/* ✅ กลุ่มเมนูด้านซ้าย */
+#Contact-page .header-left {
     display: flex;
     align-items: center;
-    gap: 15px;
-}
-
-.profile-picture {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid white;
-}
-
-.user-name {
-    font-size: 16px;
-    font-weight: bold;
-    color: white;
-}
-
-.nav-button {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    padding: 8px 15px;
-    border-radius: 5px;
-}
-
-.logout-button {
-    background-color: #E74C3C;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.logout-button:hover {
-    background-color: #C0392B;
-}
-
-/* ✅ รายชื่อผู้ใช้ทั้งหมด */
-.user-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 10px;
-}
-
-/* ✅ การ์ดแต่ละคน */
-.user-card {
-    display: flex;
-    align-items: center;
-    background-color: #E0E0E0;
-    padding: 15px;
-    border-radius: 10px;
-    transition: transform 0.2s;
     gap: 10px;
 }
 
-.user-card:hover {
-    transform: scale(1.02);
+/* ✅ รูปโปรไฟล์ในเมนู */
+#Contact-page .profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* ✅ ชื่อผู้ใช้ */
+#Contact-page .user-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #FFFFFF !important; 
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
+}
+
+/* ✅ ปุ่มเมนู */
+#Contact-page .nav-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 12px;
+    text-decoration: none;
+    transition: background 0.3s;
+    border-radius: var(--border-radius);
+}
+
+#Contact-page .nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ✅ ปุ่ม Logout อยู่ด้านขวาสุด */
+#Contact-page .logout-button {
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#Contact-page .logout-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ✅ รายชื่อผู้ใช้ทั้งหมด */
+#Contact-page .user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+/* ✅ การ์ดแต่ละคน */
+#Contact-page .user-card {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+}
+
+#Contact-page .user-card:hover {
+    background: #f1f1f1;
 }
 
 /* ✅ รูปโปรไฟล์ */
-.profile-picture-small {
+#Contact-page .profile-picture-small {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
+    margin-right: 12px;
     border: 2px solid #4A90E2;
 }
 
 /* ✅ ลิงก์ไปยังโปรไฟล์ */
-.user-list-name {
+#Contact-page .user-list-name {
     font-size: 16px;
     font-weight: bold;
+    color: var(--text-color);
     text-decoration: none;
-    color: #4A90E2;
-    flex-grow: 1;
+    margin-right: auto; /* ทำให้ชื่อไปอยู่ทางซ้ายสุด */
 }
 
-.user-list-name:hover {
-    text-decoration: underline;
+#Contact-page .user-list-name:hover {
+    color: var(--hover-color);
 }
 
 /* ✅ ปุ่ม Follow และ Delete */
-.follow-button, .delete-button {
+#Contact-page .follow-button, .delete-button {
     padding: 8px 12px;
     border-radius: 5px;
     font-weight: bold;
@@ -116,20 +159,35 @@
     margin-left: 30px
 }
 
-.follow-button {
-    background-color: #4A90E2;
+#Contact-page .follow-button {
+    background-color: var(--primary-color);
     color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+    margin-left: 10px;
 }
 
-.delete-button {
-    background-color: #E74C3C;
+#Contact-page .delete-button {
+    background-color: var(--delete-color);
     color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+    margin-left: 10px;
+
 }
 
-.follow-button:hover {
-    background-color: #357ABD;
+#Contact-page .follow-button:hover {
+    background-color: var(--hover-color);
 }
 
-.delete-button:hover {
-    background-color: #C0392B;
+#Contact-page .delete-button:hover {
+    background-color: darkred;
 }
