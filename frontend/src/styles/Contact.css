@@ -160,7 +160,7 @@
 }
 
 #Contact-page .delete-button {
-    background-color: var(--delete-color);
+    background-color: rgb(179, 3, 3);
     color: white;
     border: none;
     padding: 6px 12px;
