@@ -1,7 +1,7 @@
 
 #Contact-page .contact-container {
     max-width: 800px;
-    margin: 80px auto 20px auto; /* ให้เว้นระยะจาก header */
+    margin: 80px auto 20px auto; 
     background: white;
     padding: 20px;
     border-radius: 8px;
@@ -31,7 +31,6 @@
     overflow-y: auto; 
 }
 
-/* ✅ Header (แถบเมนูด้านบน) */
 #Contact-page .header {
     position: fixed;
     top: 0;
@@ -48,14 +47,12 @@
     height: 60px;
 }
 
-/* ✅ กลุ่มเมนูด้านซ้าย */
 #Contact-page .header-left {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-/* ✅ รูปโปรไฟล์ในเมนู */
 #Contact-page .profile-picture {
     width: 40px;
     height: 40px;
@@ -63,7 +60,6 @@
     border: 2px solid white;
 }
 
-/* ✅ ชื่อผู้ใช้ */
 #Contact-page .user-name {
     font-size: 16px;
     font-weight: bold;
@@ -71,7 +67,6 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
 }
 
-/* ✅ ปุ่มเมนู */
 #Contact-page .nav-button {
     background-color: transparent;
     border: none;
@@ -88,7 +83,6 @@
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ ปุ่ม Logout อยู่ด้านขวาสุด */
 #Contact-page .logout-button {
     background-color: var(--danger-color);
     color: white;
@@ -103,15 +97,12 @@
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ รายชื่อผู้ใช้ทั้งหมด */
 #Contact-page .user-list {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-
-/* ✅ การ์ดแต่ละคน */
 #Contact-page .user-card {
     display: flex;
     align-items: center;
@@ -127,7 +118,6 @@
     background: #f1f1f1;
 }
 
-/* ✅ รูปโปรไฟล์ */
 #Contact-page .profile-picture-small {
     width: 50px;
     height: 50px;
@@ -137,20 +127,18 @@
     border: 2px solid #4A90E2;
 }
 
-/* ✅ ลิงก์ไปยังโปรไฟล์ */
 #Contact-page .user-list-name {
     font-size: 16px;
     font-weight: bold;
     color: var(--text-color);
     text-decoration: none;
-    margin-right: auto; /* ทำให้ชื่อไปอยู่ทางซ้ายสุด */
+    margin-right: auto;
 }
 
 #Contact-page .user-list-name:hover {
     color: var(--hover-color);
 }
 
-/* ✅ ปุ่ม Follow และ Delete */
 #Contact-page .follow-button, .delete-button {
     padding: 8px 12px;
     border-radius: 5px;

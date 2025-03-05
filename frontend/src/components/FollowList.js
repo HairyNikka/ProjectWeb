@@ -77,7 +77,6 @@ const FollowList = () => {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
-            // ✅ อัปเดตสถานะ follow/unfollow โดยไม่ต้องรีเฟรชหน้า
             setFollowers((prev) =>
                 prev.map((f) => (f.id === targetUserId ? { ...f, is_following: !isFollowing } : f))
             );
@@ -120,13 +119,11 @@ const FollowList = () => {
                     </div>
         
         <div className="followlist-container">
-                {/* ✅ ปุ่มย้อนกลับไปหน้าโปรไฟล์ */}
                 <div className="back-to-profile">
                     <Link to={`/profile/${user_id}`} className="back-button">
                         <FaArrowLeft /> Back to Profile
                     </Link>
                 </div>
-            {/* ✅ รายชื่อ Followers */}
             <h2>Followers</h2>
             <div className="follow-list">
                 {followers.length === 0 ? <p>No followers yet.</p> : followers.map((follower) => (
@@ -147,7 +144,6 @@ const FollowList = () => {
                 ))}
             </div>
 
-            {/* ✅ รายชื่อ Following */}
             <h2>Following</h2>
             <div className="follow-list">
                 {following.length === 0 ? <p>Not following anyone yet.</p> : following.map((followed) => (

@@ -46,6 +46,7 @@ const Login = () => {
     };
 
  return (
+    <div id="Login-page">
         <div className="login-container">
             <h2 className="login-title">Login</h2>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
@@ -77,6 +78,7 @@ const Login = () => {
             <p className="register-link">
                 Don't have an account? <Link to="/register">Register here</Link>
             </p>
+        </div>
         </div>
     );
 };

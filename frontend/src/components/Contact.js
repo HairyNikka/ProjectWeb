@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaUser, FaHome, FaAddressBook, FaSignOutAlt } from 'react-icons/fa'; 
-import '../styles/Contact.css'; // ✅ Import CSS
+import '../styles/Contact.css';
 
 const Contact = () => {
     const [user, setUser] = useState([]);
@@ -78,39 +78,33 @@ const Contact = () => {
 
     return (
         <div id="Contact-page">
-                {/* ✅ Header ที่แสดงข้อมูลของผู้ที่ล็อกอิน */}
                 <div className="header">
                     <div className="header-left">
-                        {currentUser ? (  // ✅ ตรวจสอบว่ามี currentUser ก่อน
+                        {currentUser ? (  
                             <>
                                 <img src={currentUser?.profile_picture || 'https://via.placeholder.com/40'} 
                                     alt="Profile" className="profile-picture" />
                                 <span className="user-name">{currentUser?.first_name} {currentUser?.last_name}</span>
-
-                                {/* ✅ ขีดคั่นหลังชื่อ */}
                                 <span className="divider">|</span>
 
-                                {/* ✅ ปุ่ม Profile */}
                                 <Link to={`/profile/${currentUser?.id}`} className="nav-button">
                                     <FaUser className="icon" /> Profile
                                 </Link>
-
-                                {/* ✅ ปุ่ม Timeline */}
+                                
                                 <Link to="/home" className="nav-button">
                                     <FaHome className="icon" /> Timeline
                                 </Link>
 
-                                {/* ✅ ปุ่ม Contact */}
                                 <Link to="/contact" className="nav-button">
                                     <FaAddressBook className="icon" /> Contact
                                 </Link>
                             </>
                         ) : (
-                            <p>Loading...</p> // ✅ ป้องกันการ error โดยแสดง Loading ชั่วคราว
+                            <p>Loading...</p> 
                         )}
                     </div>
                     
-                    {/* ✅ ปุ่ม Logout */}
+
                     <button onClick={handleLogout} className="logout-button">
                         <FaSignOutAlt className="icon" /> Logout
                     </button>

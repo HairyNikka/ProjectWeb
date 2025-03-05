@@ -29,27 +29,22 @@ const Profile = () => {
             }
     
             try {
-                // ✅ ดึงข้อมูลผู้ใช้ที่ล็อกอินอยู่
                 const userResponse = await axios.get("http://127.0.0.1:8000/api/user/", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                setCurrentUser(userResponse.data); // ✅ เซ็ตค่า currentUser
+                setCurrentUser(userResponse.data);
     
-                // ✅ ดึงข้อมูลโปรไฟล์ที่กำลังเข้าชม
                 const profileResponse = await axios.get(`http://127.0.0.1:8000/api/users/${user_id}/`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                setUser(profileResponse.data); // ✅ เซ็ตค่า user
+                setUser(profileResponse.data); 
     
-                // ✅ อัปเดตสถานะติดตามของ user นี้
                 setIsFollowing(profileResponse.data.is_following);
     
-                // ✅ ดึงโพสต์ของ user ที่เข้าชม
                 const postsResponse = await axios.get(`http://127.0.0.1:8000/api/users/${user_id}/posts/`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
     
-                // ✅ โหลดคอมเมนต์ของแต่ละโพสต์แบบขนาน
                 const postsWithComments = await Promise.all(
                     postsResponse.data.map(async (post) => {
                         try {
@@ -60,12 +55,12 @@ const Profile = () => {
                             return { ...post, comments: commentsResponse.data };
                         } catch (error) {
                             console.error(`Error fetching comments for post ${post.id}`, error);
-                            return { ...post, comments: [] }; // ถ้ามี error ให้ return ค่าคอมเมนต์เป็น [] (ป้องกัน error)
+                            return { ...post, comments: [] }; 
                         }
                     })
                 );
     
-                setPosts(postsWithComments); // ✅ อัปเดตโพสต์พร้อมคอมเมนต์
+                setPosts(postsWithComments); 
             } catch (error) {
                 console.error("Error fetching profile data", error);
                 localStorage.removeItem("token");
@@ -74,7 +69,7 @@ const Profile = () => {
         };
     
         fetchData();
-    }, [navigate, user_id]); // ✅ รันทุกครั้งที่ user_id เปลี่ยน
+    }, [navigate, user_id]); 
     
     
     const handleFollowToggle = async () => {
@@ -86,7 +81,6 @@ const Profile = () => {
                 headers: { Authorization: `Bearer ${token}` },
             });
     
-            // ✅ อัปเดตค่า isFollowing และ followers_count ทันที
             setIsFollowing(!isFollowing);
             setUser((prevUser) => ({
                 ...prevUser,
@@ -108,7 +102,6 @@ const Profile = () => {
         try {
             const token = localStorage.getItem("token");
     
-            // ✅ กำหนด URL สำหรับการลบโพสต์
             const url = isAdmin
                 ? `http://127.0.0.1:8000/api/admin/posts/${postId}/delete/`
                 : `http://127.0.0.1:8000/api/posts/${postId}/delete/`;
@@ -117,10 +110,8 @@ const Profile = () => {
                 headers: { Authorization: `Bearer ${token}` },
             });
     
-            // ✅ อัปเดต state ลบโพสต์ออกจาก UI
             setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
     
-            // ✅ ถ้าโพสต์ที่ถูกลบเป็นโพสต์ที่แชร์มา → ลดจำนวน `shares_count` ของต้นฉบับ
             if (sharedFromId) {
                 setPosts((prevPosts) =>
                     prevPosts.map((post) =>
@@ -163,7 +154,7 @@ const Profile = () => {
         try {
             const token = localStorage.getItem("token");
     
-            // ✅ เรียก API แชร์โพสต์
+
             const response = await axios.post(
                 `http://127.0.0.1:8000/api/posts/${postId}/share/`,
                 {},
@@ -175,10 +166,10 @@ const Profile = () => {
             );
     
             if (response.data) {
-                // ✅ อัปเดต state ของ posts ทันที
+
                 setPosts((prevPosts) => [{ ...response.data, comments: [] }, ...prevPosts]);
     
-                // ✅ อัปเดตจำนวนแชร์ในโพสต์ต้นฉบับ
+
                 setPosts((prevPosts) =>
                     prevPosts.map((post) =>
                         post.id === postId
@@ -193,7 +184,7 @@ const Profile = () => {
     };
 
     const handleComment = async (postId, commentText) => {
-        if (!commentText.trim() || !currentUser) return;  // ✅ ป้องกันคอมเม้นต์ว่างเปล่า และต้องมี currentUser ด้วย
+        if (!commentText.trim() || !currentUser) return;  
     
         try {
             const token = localStorage.getItem("token");
@@ -201,8 +192,8 @@ const Profile = () => {
                 `http://127.0.0.1:8000/api/posts/${postId}/comments/`,
                 { 
                     content: commentText,  
-                    author_name: currentUser.first_name + " " + currentUser.last_name,  // ✅ ใช้ชื่อของ currentUser
-                    author_picture: currentUser.profile_picture  // ✅ ใช้รูปโปรไฟล์ของ currentUser
+                    author_name: currentUser.first_name + " " + currentUser.last_name,  
+                    author_picture: currentUser.profile_picture  
                 },
                 {
                     headers: {
@@ -224,7 +215,7 @@ const Profile = () => {
                     )
                 );
     
-                // ✅ รีเซ็ตกล่องคอมเม้นต์
+                
                 setCommentTexts((prevTexts) => ({ ...prevTexts, [postId]: "" }));
             }
         } catch (error) {
@@ -254,7 +245,7 @@ const Profile = () => {
     const toggleCommentSection = (postId) => {
         setOpenComments(prevState => ({
             ...prevState,
-            [postId]: !prevState[postId]  // ✅ สลับค่า true/false
+            [postId]: !prevState[postId] 
         }));
     };
 
@@ -287,27 +278,27 @@ const Profile = () => {
             <div className="profile-header">
                 {user && (
                     <div className="profile-container">
-                        {/* ✅ รูปโปรไฟล์ใหญ่ขึ้น */}
+
                         <img 
                             src={user.profile_picture || "https://via.placeholder.com/120"} 
                             alt="Profile" 
                             className="profile-picture-large" 
                         />
 
-                        {/* ✅ รายละเอียดโปรไฟล์ทางขวา */}
+
                         <div className="profile-info">
                             <div className="profile-name-follow">
                             <h2>{user.first_name} {user.last_name}</h2>
-                            {/* ✅ ปุ่มติดตาม/เลิกติดตาม */}
+
                             {user && currentUser?.id !== user.id && (
                                 <button onClick={handleFollowToggle} className="follow-button">
                                     {isFollowing ? <FaUserCheck className="follow-icon" /> : "[ Follow ]"}
                                 </button>
                             )}
                              </div>
+
                             <p className="username">@{user.username}</p>
 
-                            {/* ✅ จำนวน Followers, Following, Posts */}
                             <div className="profile-stats">
                                 <Link to={`/profile/${user.id}/followers`} className="stat-link">
                                     <strong>{user.followers_count}</strong> Followers
@@ -318,14 +309,13 @@ const Profile = () => {
                                 <span><strong>{user.posts_count}</strong> Posts</span>
                             </div>
 
-                            {/* ✅ Description ของโปรไฟล์ */}
                             {user.description ? (
                                 <p className="profile-description">{user.description}</p>
                             ) : (
                                 <p className="profile-description no-description">No bio available.</p>
                             )}
                         </div>
-                            {/* ✅ ปุ่มแก้ไขโปรไฟล์ (เฉพาะเจ้าของเท่านั้น) */}
+
                             {currentUser && user && currentUser.id === user.id && (
                             <Link to={`/profile/${user.id}/edit`} className="edit-profile-button">
                                 <FaEdit className="edit-icon" />
@@ -346,7 +336,6 @@ const Profile = () => {
                             </span>
                         </div>
 
-                        {/* ✅ แสดงโพสต์ที่แชร์ */}
                         {post.shared_from?.author && (
                             <div className="shared-from-container">
                                 <span className="shared-by">Shared from</span>
@@ -357,7 +346,6 @@ const Profile = () => {
                             </div>
                         )}
 
-                        {/* ✅ แสดงเนื้อหาโพสต์ */}
                         <p className="post-content">{post.content}</p>
                         {post.image && <img src={post.image} alt="Post" className="post-image" />}
                         <small className="post-date">{new Date(post.created_at).toLocaleString()}</small>
@@ -377,7 +365,6 @@ const Profile = () => {
                             </div>
 
                             <div className="post-actions-right">
-                            {/* ✅ ปุ่ม Delete (เฉพาะเจ้าของโพสต์หรือแอดมิน) */}
                             {(post.author.id === currentUser?.id || post.shared_by?.id === currentUser?.id || isAdmin) && (
                                 <button onClick={() => handleDeletePost(post.id)} className="action-button delete-button">
                                     <FaTrash className="icon" />

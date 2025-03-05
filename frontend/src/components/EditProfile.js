@@ -25,7 +25,7 @@ const EditProfile = () => {
             setFirstName(response.data.first_name);
             setLastName(response.data.last_name);
             setProfilePicture(response.data.profile_picture);
-            setDescription(response.data.description || ''); // ✅ ดึงค่า description ถ้ามี
+            setDescription(response.data.description || ''); 
         } catch (error) {
             console.error('Error fetching user data', error);
         }
@@ -86,7 +86,7 @@ const EditProfile = () => {
                     <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
                 </div>
                 <div className="form-group">
-                    <label>Bio (Description):</label> {/* ✅ เพิ่มช่องให้แก้ไข bio */}
+                    <label>Bio (Description):</label> 
                     <textarea
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
@@ -97,7 +97,7 @@ const EditProfile = () => {
                 <div className="form-group">
                     <label>Profile Picture:</label>
     
-                    {/* ✅ ปุ่มอัปโหลดไฟล์ที่ดูดีขึ้น */}
+
                     <div className="file-upload-container">
                         <label htmlFor="profilePictureInput" className="file-label">Choose a file</label>
                         <input id="profilePictureInput" type="file" onChange={handleProfilePictureChange} />

@@ -34,7 +34,6 @@ const Home = () => {
                     headers: { Authorization: `Bearer ${token}` },
                 });
     
-                // ✅ ดึงคอมเมนต์ของทุกโพสต์
                 const postsWithComments = await Promise.all(
                     postsResponse.data.map(async (post) => {
                         const commentsResponse = await axios.get(
@@ -104,10 +103,8 @@ const Home = () => {
                 headers: { Authorization: `Bearer ${token}` },
             });
     
-            // ✅ ลบโพสต์ออกจาก state
             setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
-    
-            // ✅ ถ้าโพสต์ที่ลบเป็นโพสต์ที่แชร์ → ลดจำนวน `shares_count` ของโพสต์ต้นฉบับ
+
             if (sharedFromId) {
                 setPosts((prevPosts) =>
                     prevPosts.map((post) =>
@@ -152,7 +149,6 @@ const Home = () => {
         try {
             const token = localStorage.getItem("token");
     
-            // ✅ เรียก API แชร์โพสต์
             const response = await axios.post(
                 `http://127.0.0.1:8000/api/posts/${postId}/share/`,
                 {},
@@ -164,10 +160,8 @@ const Home = () => {
             );
     
             if (response.data) {
-                // ✅ อัปเดต state ของ posts ทันที
+
                 setPosts((prevPosts) => [{ ...response.data, comments: [] }, ...prevPosts]);
-    
-                // ✅ อัปเดตจำนวนแชร์ในโพสต์ต้นฉบับ
                 setPosts((prevPosts) =>
                     prevPosts.map((post) =>
                         post.id === postId
@@ -183,7 +177,7 @@ const Home = () => {
 
     
     const handleComment = async (postId, commentText) => {
-        if (!commentText.trim()) return; // ✅ ป้องกันคอมเมนต์ว่างเปล่า
+        if (!commentText.trim()) return; 
     
         try {
             const token = localStorage.getItem("token");
@@ -199,7 +193,6 @@ const Home = () => {
             );
     
             if (response.data) {
-                // ✅ ตรวจสอบว่ามี comments อยู่แล้วหรือไม่ ถ้าไม่มีให้สร้าง array ใหม่
                 setPosts((prevPosts) =>
                     prevPosts.map((post) =>
                         post.id === postId
@@ -207,13 +200,12 @@ const Home = () => {
                                 ...post, 
                                 comments: post.comments 
                                     ? [...post.comments, response.data] 
-                                    : [response.data]  // ✅ กรณีไม่มีคอมเมนต์มาก่อน
+                                    : [response.data]  
                             }
                             : post
                     )
                 );
     
-                // ✅ เคลียร์ช่องกรอกคอมเม้นหลังจากส่งสำเร็จ
                 setCommentTexts((prevTexts) => ({ ...prevTexts, [postId]: "" }));
             }
         } catch (error) {
@@ -228,7 +220,6 @@ const Home = () => {
                 headers: { Authorization: `Bearer ${token}` },
             });
     
-            // ✅ อัปเดตโพสต์ให้คอมเมนต์หายไป
             setPosts((prevPosts) =>
                 prevPosts.map((post) => ({
                     ...post,
@@ -245,7 +236,7 @@ const Home = () => {
     const toggleCommentSection = (postId) => {
         setOpenComments(prevState => ({
             ...prevState,
-            [postId]: !prevState[postId]  // ✅ สลับค่า true/false
+            [postId]: !prevState[postId]  
         }));
     };
 
@@ -253,7 +244,6 @@ const Home = () => {
 
     return (
         <div id="Home-page">
-            {/* ✅ Header เมนูด้านบน */}
             <div className="header">
                 <div className="header-left">
                     {user && (
@@ -261,20 +251,16 @@ const Home = () => {
                             <img src={user.profile_picture || 'https://via.placeholder.com/40'} alt="Profile" className="profile-picture" />
                             <span className="user-name">{user.first_name} {user.last_name}</span>
 
-                            {/* ✅ ขีดคั่นหลังชื่อ */}
                             <span className="divider">|</span>
 
-                            {/* ✅ ปุ่ม Profile */}
                             <Link to={`/profile/${user.id}`} className="nav-button">
                                 <FaUser className="icon" /> Profile
                             </Link>
 
-                            {/* ✅ ปุ่ม Timeline */}
                             <Link to="/home" className="nav-button">
                                 <FaHome className="icon" /> Timeline
                             </Link>
 
-                            {/* ✅ ปุ่ม Contact */}
                             <Link to="/contact" className="nav-button">
                                 <FaAddressBook className="icon" /> Contact
                             </Link>
@@ -282,16 +268,13 @@ const Home = () => {
                     )}
                 </div>
                 
-                {/* ✅ ปุ่ม Logout */}
                 <button onClick={handleLogout} className="logout-button">
                     <FaSignOutAlt className="icon" /> Logout
                 </button>
             </div>
 
-            {/* ✅ เนื้อหาหลักของหน้า Home */}
             <div className="content">
                 <div className="new-post">
-                {/* ✅ แสดงโปรไฟล์ผู้ใช้ และชื่อชิดซ้าย */}
                 {user && (
                     <div className="post-user-info">
                         <img src={user.profile_picture || 'https://via.placeholder.com/40'} 
@@ -300,7 +283,6 @@ const Home = () => {
                     </div>
                 )}
 
-                {/* ✅ ช่องกรอกข้อความ */}
                 <textarea 
                     value={newPostContent} 
                     onChange={(e) => setNewPostContent(e.target.value)}
@@ -308,7 +290,6 @@ const Home = () => {
                     className="post-input" 
                 />
 
-                {/* ✅ กล่องใส่ไฟล์ + แสดงชื่อไฟล์ */}
                 <div className="file-upload-container">
                     <label htmlFor="file-upload" className="file-label">
                         <FaImage className="file-icon" /> Choose Image
@@ -322,7 +303,6 @@ const Home = () => {
                         className="file-input-hidden"
                     />
 
-                    {/* ✅ แสดงชื่อไฟล์ ถ้าเลือกแล้ว */}
                     {newPostImage && (
                         <div className="file-info">
                             <FaFileAlt className="file-preview-icon" />
@@ -331,7 +311,6 @@ const Home = () => {
                     )}
                 </div>
 
-                    {/* ✅ ปุ่มโพสต์ พร้อมไอคอน */}
                     <button onClick={handleCreatePost} className="post-button">
                         <FaRegPlusSquare  className="post-icon" /> Post
                     </button>
@@ -346,7 +325,6 @@ const Home = () => {
                             </span>
                         </div>
 
-                        {/* ✅ แสดงโพสต์ที่แชร์ */}
                         {post.shared_from?.author && (
                             <div className="shared-from-container">
                                 <span className="shared-by">Shared from</span>
@@ -357,12 +335,10 @@ const Home = () => {
                             </div>
                         )}
 
-                        {/* ✅ แสดงเนื้อหาโพสต์ */}
                         <p className="post-content">{post.content}</p>
                         {post.image && <img src={post.image} alt="Post" className="post-image" />}
                         <small className="post-date">{new Date(post.created_at).toLocaleString()}</small>
 
-                        {/* ✅ ปุ่ม Like, Share, Comment, Delete */}
                         <div className="post-actions">
                         <div className="post-actions-left">
                             <button onClick={() => handleLike(post.id)} className={`action-button like-button ${post.likes.includes(user?.id) ? "liked" : ""}`}>
@@ -377,7 +353,6 @@ const Home = () => {
                             </div>
 
                             <div className="post-actions-right">
-                            {/* ✅ ปุ่ม Delete (เฉพาะเจ้าของโพสต์หรือแอดมิน) */}
                             {(post.author.id === user?.id || post.shared_by?.id === user?.id || isAdmin) && (
                                 <button onClick={() => handleDeletePost(post.id)} className="action-button delete-button">
                                     <FaTrash className="icon" />
@@ -386,7 +361,6 @@ const Home = () => {
                             </div>
                         </div>
 
-                        {/* ย้าย comment-wrapper ให้อยู่ใต้โพสต์* */}
                         {openComments[post.id] && (
                             <div className="comment-wrapper">
                                 <div className="comment-section">
@@ -404,7 +378,6 @@ const Home = () => {
                                         </button>
                                     </div>
 
-                                    {/* แสดงคอมเมนต์ */}
                                     <div className="comment-list">
                                     
                                     {(post.comments || []).length > 0 ? (
@@ -422,7 +395,6 @@ const Home = () => {
                                                     <p className="comment-text">{comment.content}</p>
                                                 </div>
                                                 </div>
-                                                {/*  แสดงปุ่มลบเฉพาะเจ้าของคอมเมนต์ หรือแอดมิน */}
                                                 {user && (comment.author === user.id || isAdmin) && (
                                                     <button onClick={() => handleDeleteComment(comment.id)} 
                                                         className="comment-delete-button">
@@ -432,7 +404,7 @@ const Home = () => {
                                             </div>
                                         ))
                                         ) : (
-                                            <p className="no-comments">No comments yet.</p>  // เพิ่มข้อความถ้าไม่มีคอมเมนต์
+                                            <p className="no-comments">No comments yet.</p>
                                         )}
                                     </div>
                                 </div>

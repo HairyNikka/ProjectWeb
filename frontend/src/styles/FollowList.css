@@ -1,4 +1,4 @@
-/* ✅ ตั้งค่าพื้นฐาน */
+
 #List-page .followlist-container {
     max-width: 600px;
     margin: 30px auto;
@@ -9,7 +9,6 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* ✅ Header ที่แสดงข้อมูลผู้ที่ล็อกอิน */
 #List-page .header {
     position: fixed;
     top: 0;
@@ -26,14 +25,12 @@
     height: 60px;
 }
 
-/* ✅ กลุ่มเมนูด้านซ้าย */
 #List-page .header-left {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-/* ✅ รูปโปรไฟล์ในเมนู */
 #List-page .profile-picture {
     width: 40px;
     height: 40px;
@@ -41,7 +38,6 @@
     border: 2px solid white;
 }
 
-/* ✅ ชื่อผู้ใช้ */
 #List-page .user-name {
     font-size: 16px;
     font-weight: bold;
@@ -49,7 +45,6 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
 }
 
-/* ✅ ปุ่มเมนู */
 #List-page .nav-button {
     background-color: transparent;
     border: none;
@@ -66,7 +61,6 @@
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ ปุ่ม Logout อยู่ด้านขวาสุด */
 #List-page .logout-button {
     background-color: var(--danger-color);
     color: white;
@@ -81,7 +75,6 @@
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ ปุ่มย้อนกลับ */
 #List-page .back-to-profile {
     margin-bottom: 10px;
 }
@@ -99,14 +92,12 @@
     color: #000;
 }
 
-/* ✅ รายชื่อ Followers และ Following */
 h2 {
     text-align: center;
     color: #4A90E2;
     margin-top: 20px;
 }
 
-/* ✅ กรอบลิสต์ของ Followers และ Following */
 #List-page .follow-list {
     display: flex;
     flex-direction: column;
@@ -114,7 +105,6 @@ h2 {
     margin-top: 10px;
 }
 
-/* ✅ การ์ดแต่ละคน */
 #List-page .user-card {
     display: flex;
     align-items: center;
@@ -135,7 +125,6 @@ h2 {
     text-decoration: underline;
 }
 
-/* ✅ รูปโปรไฟล์ของแต่ละคน */
 .profile-picture-small {
     width: 50px;
     height: 50px;
@@ -143,7 +132,6 @@ h2 {
     border: 2px solid #4A90E2;
 }
 
-/* ✅ ปุ่ม Follow และ Unfollow */
 #List-page .follow-button {
     margin-left: auto;
     padding: 5px 10px;
@@ -158,7 +146,6 @@ h2 {
     background: #0056b3;
 }
 
-/* ✅ ข้อความสำหรับตัวเอง */
 #List-page .self-text {
     color: #0056b3;
     font-size: 16px;

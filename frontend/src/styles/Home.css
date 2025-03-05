@@ -16,7 +16,6 @@
     overflow-y: auto; 
 }
 
-/* ✅ Header (แถบเมนูด้านบน) */
 #Home-page .header {
     position: fixed;
     top: 0;
@@ -33,14 +32,12 @@
     height: 60px;
 }
 
-/* ✅ กลุ่มเมนูด้านซ้าย */
 #Home-page .header-left {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-/* ✅ รูปโปรไฟล์ในเมนู */
 #Home-page .profile-picture {
     width: 40px;
     height: 40px;
@@ -48,7 +45,6 @@
     border: 2px solid white;
 }
 
-/* ✅ ชื่อผู้ใช้ */
 #Home-page .user-name {
     font-size: 16px;
     font-weight: bold;
@@ -56,7 +52,6 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
 }
 
-/* ✅ ปุ่มเมนู */
 #Home-page .nav-button {
     background-color: transparent;
     border: none;
@@ -73,7 +68,6 @@
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ ปุ่ม Logout อยู่ด้านขวาสุด */
 #Home-page .logout-button {
     background-color: var(--danger-color);
     color: white;
@@ -88,7 +82,6 @@
     background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ เนื้อหาโพสต์ */
 #Home-page .content {
     width: 100%;
     max-width: 900px; 
@@ -101,7 +94,6 @@
     align-items: center; 
 }
 
-/* ✅ กล่องโพสต์ใหม่ */
 #Home-page .new-post {
     background: white;
     padding: 15px;
@@ -138,8 +130,8 @@
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 20px auto; /* ✅ จัดกึ่งกลาง */
-    display: block; /* ✅ ป้องกันโพสต์ถูกบีบ */
+    margin: 20px auto; 
+    display: block; 
 }
 #Home-page .post-input {
     width: 100%;
@@ -218,7 +210,6 @@
     background-color: #357ABD;
 }
 
-/* ✅ กล่องโพสต์ */
 #Home-page .post-header {
     display: flex;
     align-items: center;
@@ -234,30 +225,27 @@
     word-wrap: break-word;
 }
 
-/* ✅ วันเวลาของโพสต์ */
 #Home-page .post-date {
     font-size: 12px;
     color: #777;
     margin-top: 5px;
 }
 
-/* ✅ รูปในโพสต์ (ป้องกันขยายเต็มจอ) */
 #Home-page .post-image {
-    width: 100%; /* ✅ ให้รูปขยายเต็มโพสต์ */
-    max-width: 800px; /* ✅ ป้องกันการขยายเกินโพสต์ */
-    height: auto; /* ✅ ปรับอัตราส่วนอัตโนมัติ */
-    max-height: 500px; /* ✅ กำหนดความสูงสูงสุด */
+    width: 100%; 
+    max-width: 800px; 
+    height: auto; 
+    max-height: 500px; 
     display: block;
     margin: 10px auto;
     border-radius: 8px;
-    object-fit: contain; /* ✅ ขยายรูปให้พอดี แต่ไม่บิดเบี้ยว */
+    object-fit: contain; 
 }
 
-/* ✅ ปุ่มในโพสต์ */
 #Home-page .post-actions {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* จัดให้ปุ่มลบไปชิดขวา */
+    justify-content: space-between;
     gap: 15px;
     margin-top: 10px;
     width: 100%;
@@ -280,7 +268,6 @@
     border: 2px solid var(--primary-color);
 }
 
-/* ✅ ปุ่ม Action (Like, Share, Delete) */
 #Home-page .action-button {
     display: flex;
     align-items: center;
@@ -303,16 +290,14 @@
 }
 
 #Home-page .like-button.liked {
-    background-color: #1877f2; /* สีฟ้าเมื่อกด Like */
+    background-color: #1877f2; 
     color: white;
 }
 
-/* ✅ ปรับปุ่ม Share */
 #Home-page .share-button {
     color: #333;
 }
 
-/* ✅ ปรับปุ่ม Delete */
 #Home-page .delete-button {
     background-color: #ff4d4d;
     color: white;
@@ -323,8 +308,6 @@
     background-color: #d32f2f;
 }
 
-
-/* ✅ กล่องโพสต์ที่แชร์ */
 #Home-page .shared-from-container {
     display: flex;
     align-items: center;
@@ -334,7 +317,6 @@
     margin-top: 5px;
 }
 
-/* ✅ รูปโปรไฟล์ในโพสต์ที่แชร์ */
 #Home-page .shared-from-profile-picture {
     width: 30px;
     height: 30px;
@@ -350,7 +332,6 @@
     text-decoration: underline;
 }
 
-/* ✅ ชื่อคนที่แชร์ */
 #Home-page .shared-from-name {
     color: var(--primary-color);
     text-decoration: none;
@@ -361,13 +342,11 @@
     text-decoration: underline;
 }
 
-/* ✅ ป้าย Shared from */
 #Home-page .shared-by {
     font-size: 12px;
     color: #777;
 }
 
-/* ✅ สไตล์ขีดคั่นหลังชื่อ */
 #Home-page .divider {
     margin: 0 1px; 
     font-size: 18px;
@@ -437,7 +416,7 @@
 #Home-page .comment {
     align-self: flex-start;
     align-items: center;
-    justify-content: space-between;  /* ✅ ให้ปุ่มลบไปชิดขวา */
+    justify-content: space-between; 
     display: flex;
     align-items: center;
     background-color: #f5f5f5;
@@ -453,7 +432,7 @@
     color: red;
     cursor: pointer;
     font-size: 16px;
-    margin-left: auto;  /* ✅ บังคับให้ปุ่มไปอยู่ขอบขวา */
+    margin-left: auto;  
     padding: 5px;
 }
 

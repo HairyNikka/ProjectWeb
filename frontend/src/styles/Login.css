@@ -1,13 +1,15 @@
-:root {
-    --primary-color: #4A90E2; /* ✅ สีหลัก (น้ำเงินอ่อน) */
-    --secondary-color: #E0E0E0; /* ✅ สีเทาอ่อน */
-    --background-color: #FFFFFF; /* ✅ พื้นหลังสีขาว */
-    --text-color: #333; /* ✅ ข้อความสีดำ */
+ :root {
+    --primary-color: #4A90E2;
+    --secondary-color: #E0E0E0;
+    --background-color: #FFFFFF;
+    --text-color: #333;
+    --danger-color: #FF4D4D;
+    --border-radius: 8px;
 }
 
-body {
-    background-color: var(--background-color) !important;
-    color: var(--text-color) !important;
+ body {
+    background-color: var(--background-color);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,22 +17,21 @@ body {
     margin: 0;
 }
 
-/* ✅ กล่อง Login เหมือน Register */
 .login-container {
+    margin-top: 60px;
     background-color: var(--secondary-color);
-    padding: 25px;
+    padding: 30px;
     border-radius: 12px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-    width: 400px; /* ✅ เปลี่ยนจาก `max-width: 400px` เป็น `width: 400px` เพื่อไม่ให้บีบ */
+    width: 400px; 
     text-align: center;
 }
 
-/* ✅ หัวข้อ */
 h2 {
     color: var(--primary-color);
+    font-size: 36px;
 }
 
-/* ✅ ปรับสี Label */
 .form-label {
     color: var(--text-color);
     font-weight: bold;
@@ -39,8 +40,8 @@ h2 {
     margin-bottom: 5px;
 }
 
-/* ✅ ช่องกรอกข้อมูลเหมือน Register */
-.form-control {
+
+ .form-control {
     background-color: var(--background-color);
     border: 2px solid var(--primary-color);
     color: var(--text-color);
@@ -51,14 +52,13 @@ h2 {
     margin-bottom: 10px;
 }
 
-.form-control:focus {
+ .form-control:focus {
     background-color: var(--background-color);
     border-color: var(--primary-color);
     color: var(--text-color);
     outline: none;
 }
 
-/* ✅ ปรับปุ่ม Login */
 .btn-primary {
     background-color: var(--primary-color);
     border: none;
@@ -71,21 +71,19 @@ h2 {
 }
 
 .btn-primary:hover {
-    background-color: #357ABD; /* ✅ น้ำเงินเข้มขึ้นเมื่อ hover */
+    background-color: #357ABD; 
 }
 
-/* ✅ ข้อความแจ้งเตือน */
 .error-message {
     color: red;
     font-weight: bold;
 }
 
-.success-message {
+ .success-message {
     color: green;
     font-weight: bold;
 }
 
-/* ✅ ลิงก์ไป Register */
 .register-link {
     display: block;
     margin-top: 10px;
