@@ -12,12 +12,10 @@ from django.contrib.auth import get_user_model
 from .models import Post,Follow,User, Comment
 from django.db.models import Q
 
-# View สำหรับการสมัครสมาชิก
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
 
-# View สำหรับการเข้าสู่ระบบ
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
